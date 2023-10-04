@@ -1,4 +1,5 @@
 -- Creates IS330 project tables
+-- Matthew Cragg
 
 -- Creates and uses tracker databse
 DROP DATABASE IF EXISTS tracker;
@@ -17,7 +18,7 @@ USE tracker;
 
 -- Users tables, stores people and relevant info
 CREATE TABLE users (
-	user_id INT PRIMARY KEY,
+	user_id INT PRIMARY KEY auto_increment,
     LastName VARCHAR(50) NOT NULL,
     FirstName VARCHAR(50) NOT NULL,
     Rights ENUM('Admin','Input'),
@@ -26,24 +27,28 @@ CREATE TABLE users (
     hashed_password VARCHAR(64),
     salt VARCHAR(32)
     );
-    
+
+-- Type of report
 CREATE TABLE classification (
-	classification_id INT PRIMARY KEY,
-    ClassificationName ENUM('Damage','Concern','Noted')
+	classification_id INT PRIMARY KEY auto_increment,
+    ClassificationName VARCHAR(35)
     );
-    
+
+-- What level impact was caused by the occurance being reported
 CREATE TABLE impact (
-	impact_id INT PRIMARY KEY,
-    Impact ENUM('Severe','Significant','Problem','Recoverable')
+	impact_id INT PRIMARY KEY auto_increment,
+    ImpactPhrase VARCHAR(50)
     );
     
+-- Where was the occurance
 CREATE TABLE location (
-	location_id INT PRIMARY KEY,
+	location_id INT PRIMARY KEY auto_increment,
     LocationDescription VARCHAR(50) NOT NULL
     );
 
+-- Stores the reports entered into the system
 CREATE TABLE reports (
-	reports_id INT PRIMARY KEY,
+	reports_id INT PRIMARY KEY auto_increment,
     IncidentDate DATE,
     CreatedDate DATE,
     classification_id INT,
