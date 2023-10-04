@@ -53,6 +53,9 @@ CREATE TABLE reports (
     location_id INT,
     FOREIGN KEY (location_id) REFERENCES location(location_id),
     Description VARCHAR(150),
-    user_id INT,
-	FOREIGN KEY (user_id) REFERENCES users(user_id)
+    CreatedBy INT,
+	FOREIGN KEY (CreatedBy) REFERENCES users(user_id),
+    ModifiedDate DATE,
+    ModifiedBy INT,
+    FOREIGN KEY (ModifiedBy) REFERENCES users(user_id)
     )
