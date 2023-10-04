@@ -6,6 +6,17 @@
 -- FROM reports
 -- JOIN users ON reports.CreatedBy = users.user_id;
 
+-- Perform a inner join (multiple)
+SELECT FirstName, LastName, CreatedDate, impact.ImpactPhrase
+FROM reports AS r
+	INNER JOIN users
+    ON r.CreatedBy = users.user_id
+    ON r.ModifiedBy = users.user_id
+    INNER JOIN impact
+    ON r.impact_id = impact.impact_id;
+
+
+
 -- Performs an insert to users
 -- INSERT INTO users (LastName, FirstName, Rights, Status, DateAdded, hashed_password)
 -- VALUES
