@@ -1,16 +1,17 @@
 -- Creates IS330 project tables
 
 -- Creates and uses tracker databse
+DROP DATABASE IF EXISTS tracker;
 CREATE DATABASE IF NOT EXISTS tracker;
 USE tracker;
 
 -- Removes old versions of tables
 
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS classification;
-DROP TABLE IF EXISTS impact;
-DROP TABLE IF EXISTS location;
-DROP TABLE IF EXISTS reports;
+-- DROP TABLE IF EXISTS users;
+-- DROP TABLE IF EXISTS classification;
+-- DROP TABLE IF EXISTS impact;
+-- DROP TABLE IF EXISTS location;
+-- DROP TABLE IF EXISTS reports;
 
 
 
