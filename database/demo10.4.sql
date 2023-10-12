@@ -6,6 +6,10 @@
 -- FROM reports
 -- JOIN users ON reports.CreatedBy = users.user_id;
 
+SELECT reports.IncidentDate, classification.classificationname, reports.CreatedBy 
+        FROM reports 
+        JOIN classification ON reports.classification_id = classification.classification_id
+
 -- Perform a inner join (multiple)
 -- SELECT FirstName, LastName, CreatedDate, ImpactPhrase
 -- FROM reports AS r
@@ -30,3 +34,4 @@
 -- Performs a delete row of a user
 -- DELETE FROM users
 -- WHERE user_id = 4;
+
