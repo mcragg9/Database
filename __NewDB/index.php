@@ -42,8 +42,6 @@
     echo "</br></br>4</br></br>";
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -139,10 +137,6 @@
     </script>
 </body>
 </html>
-
-
-
-
 
 </br>
 End of Page
