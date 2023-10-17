@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Report Form</title>
+</head>
+<body>
+
+<h1>Incident Report</h1>
+
+<form action="/submit_incident" method="post">
+
+    <label for="incident_date">Incident Date:</label>
+    <input type="date" id="incident_date" name="incident_date" required><br><br>
+
+    <label for="classification">Classification:</label>
+    <select id="classification" name="classification" required>
+        <option value="security">Security</option>
+        <option value="safety">Safety</option>
+        <option value="other">Other</option>
+    </select><br><br>
+
+    <label for="impact">Impact:</label>
+    <select id="impact" name="impact" required>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+    </select><br><br>
+
+    <label for="location">Location:</label>
+    <select id="location" name="location" required>
+        <option value="office">Office</option>
+        <option value="warehouse">Warehouse</option>
+        <option value="store">Store</option>
+        <option value="other">Other</option>
+    </select>
+    <input type="text" id="new_location" name="new_location" placeholder="New Location"><br><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+
+    <input type="submit" value="Submit">
+    
+</form>
+
+</body>
+</html>
