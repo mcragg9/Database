@@ -1,4 +1,5 @@
 <?php
+/*
     // make sure the page uses a secure connection
     $https = filter_input(INPUT_SERVER, 'HTTPS');
     if (!$https) {
@@ -8,4 +9,5 @@
         header("Location: " . $url);
         exit();
     }
+    */
 ?>

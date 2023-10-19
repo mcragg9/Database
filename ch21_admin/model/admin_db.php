@@ -13,6 +13,10 @@ function add_admin($email, $password) {
 
 function is_valid_admin_login($email, $password) {
     global $db;
+
+    /* $hash = password_hash($password, PASSWORD_DEFAULT);
+    echo $hash; */
+
     $query = 'SELECT password FROM administrators
               WHERE emailAddress = :email';
     $statement = $db->prepare($query);
@@ -20,6 +24,12 @@ function is_valid_admin_login($email, $password) {
     $statement->execute();
     $row = $statement->fetch();
     $statement->closeCursor();
+
+    if($row === False)
+    {
+        return False;
+    }
+    
     $hash = $row['password'];
     return password_verify($password, $hash);
 }

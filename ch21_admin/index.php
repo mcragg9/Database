@@ -1,4 +1,25 @@
 <?php
+
+/*
+
+We want ch21_admin to work, but we ran into issues:
+
+1) Problem: Access denied for user 'mgs_user'@'localhost' (using password: YES)
+      - Database is not set up
+   Solution: Run the SQL code that sets up the DB
+
+2) Problem: Redirecting to HTTPs (via the file util/secure_conn.php)
+   Solution: Comment out the redirection code
+
+2.5) Problem: Notice: Trying to access array offset on value of type bool in C:\xampp\htdocs\book_apps\ch21_admin\model\admin_db.php on line 23
+
+3) Problem: Can't log in, don't know password
+   Solution: 
+
+*/
+
+
+
 // Start session management and include necessary functions
 session_start();
 require_once('model/database.php');
@@ -6,6 +27,7 @@ require_once('model/admin_db.php');
 
 // Get the action to perform
 $action = filter_input(INPUT_POST, 'action');
+
 if ($action == NULL) {
     $action = filter_input(INPUT_GET, 'action');
     if ($action == NULL) {
@@ -31,6 +53,9 @@ switch($action) {
             include('view/login.php');
         }
         break;
+    case 'left_off':
+        include("view/Reports.php");
+        break;
     case 'show_admin_menu':
         include('view/admin_menu.php');
         break;
@@ -38,7 +63,7 @@ switch($action) {
         include('view/product_manager.php');
         break;
     case 'show_order_manager':
-        include('view/order_manager.php');
+        include('view/generate_reports.php');
         break;
     case 'logout':
         $_SESSION = array();   // Clear all session data from memory
