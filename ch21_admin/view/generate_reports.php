@@ -10,9 +10,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Form</title>
-    <p><a href="index.php?action=show_admin_menu">Admin Menu</a></p>
-            <p><a href="index.php?action=logout">Logout</a></p>
+    <?php
+            include("util/nav_menu.php")
+        ?>
 </head>
+
 <body>
     <div class="container">
         <form action="insert_reports.php" method="post">

@@ -2,7 +2,7 @@
 function add_admin($user, $password) {
     global $db;
     $hash = password_hash($password, PASSWORD_DEFAULT);
-    $query = 'INSERT INTO Users (UserName, password)
+    $query = 'INSERT INTO Users (UserName, password_hash)
               VALUES (:user, :password)';
     $statement = $db->prepare($query);
     $statement->bindValue(':user', $user);
@@ -13,6 +13,13 @@ function add_admin($user, $password) {
 
 function is_valid_admin_login($user, $password) {
     global $db;
+
+
+    /* to sneak in with any user/password 
+    used test & 1234 I think
+    add_admin($user,$password); */
+
+
 
     /* $hash = password_hash($password, PASSWORD_DEFAULT);
     echo $hash; */
