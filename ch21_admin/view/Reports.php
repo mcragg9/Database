@@ -32,41 +32,72 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Reports</title>
-        <link rel="stylesheet" type="text/css" href="main.css"/>
-    </head>
-    <body>
-        <header>
-            <h1>Reports</h1>
-        </header>
+<head>
+    <title>Reports</title>
+    <link rel="stylesheet" type="text/css" href="main.css"/>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reports</h1>
+    </header>
 
-        <?php
-            include("util/nav_menu.php")
-        ?>
+    <?php
+        include("util/nav_menu.php")
+    ?>
 
-        <!-- Add search form -->
-        <form method="post" action="">
-            <input type="text" name="incidentDate" placeholder="Search by Incident Date">
-            <input type="text" name="classificationName" placeholder="Search by Classification Name">
-            <input type="text" name="createdBy" placeholder="Search by Created By">
-            <input type="submit" value="Search">
-        </form>
+    <!-- Add search form -->
+    <form method="post" action="">
+        <input type="text" name="incidentDate" placeholder="Search by Incident Date">
+        <input type="text" name="classificationName" placeholder="Search by Classification Name">
+        <input type="text" name="createdBy" placeholder="Search by Created By">
+        <input type="submit" value="Search">
+    </form>
 
-        <!-- Add clear search form -->
-        <form method="post" action="">
-            <input type="submit" value="Clear Search">
-        </form>
+    <!-- Add clear search form -->
+    <form method="post" action="">
+        <input type="submit" value="Clear Search">
+    </form>
 
-        <?php
-            // Display the results
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo "Incident Date: " . $row['IncidentDate'] . "<br>";
-                echo "Classification Name: " . $row['classificationname'] . "<br>";
-                echo "Created By: " . $row['CreatedBy'] . "<br>";
-                echo "Description: " . $row['description'] . "<br>";
-                echo "<hr>";
+    <?php
+        // Display the results in a table
+        $headerPrinted = false;
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if (!$headerPrinted) {
+                echo '<table>';
+                echo '<tr>';
+                foreach ($row as $key => $value) {
+                    echo '<th>' . htmlspecialchars($key) . '</th>';
+                }
+                echo '</tr>';
+                $headerPrinted = true;
             }
-        ?>
-    </body>
+            echo '<tr>';
+            foreach ($row as $value) {
+                echo '<td>' . htmlspecialchars($value) . '</td>';
+            }
+            echo '</tr>';
+        }
+        if ($headerPrinted) {
+            echo '</table>';
+        } else {
+            echo '<p>No results found.</p>';
+        }
+    ?>
+</body>
 </html>
+
+
