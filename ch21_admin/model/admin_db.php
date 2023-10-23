@@ -1,26 +1,26 @@
 <?php
-function add_admin($email, $password) {
+function add_admin($user, $password) {
     global $db;
     $hash = password_hash($password, PASSWORD_DEFAULT);
-    $query = 'INSERT INTO administrators (emailAddress, password)
-              VALUES (:email, :password)';
+    $query = 'INSERT INTO Users (UserName, password)
+              VALUES (:user, :password)';
     $statement = $db->prepare($query);
-    $statement->bindValue(':email', $email);
+    $statement->bindValue(':user', $user);
     $statement->bindValue(':password', $hash);
     $statement->execute();
     $statement->closeCursor();
 }
 
-function is_valid_admin_login($email, $password) {
+function is_valid_admin_login($user, $password) {
     global $db;
 
     /* $hash = password_hash($password, PASSWORD_DEFAULT);
     echo $hash; */
 
-    $query = 'SELECT password FROM administrators
-              WHERE emailAddress = :email';
+    $query = 'SELECT password_hash FROM users
+              WHERE UserName = :user';
     $statement = $db->prepare($query);
-    $statement->bindValue(':email', $email);
+    $statement->bindValue(':user', $user);
     $statement->execute();
     $row = $statement->fetch();
     $statement->closeCursor();
@@ -30,7 +30,7 @@ function is_valid_admin_login($email, $password) {
         return False;
     }
     
-    $hash = $row['password'];
+    $hash = $row['password_hash'];
     return password_verify($password, $hash);
 }
 ?>

@@ -19,12 +19,13 @@ USE tracker;
 -- Users tables, stores people and relevant info
 CREATE TABLE users (
 	user_id INT PRIMARY KEY auto_increment,
+    UserName VARCHAR(50),
     LastName VARCHAR(50) NOT NULL,
     FirstName VARCHAR(50) NOT NULL,
     Rights ENUM('Admin','Input'),
     Status ENUM('Active','Innactive'),
     DateAdded DATE,
-    hashed_password VARCHAR(64),
+    password_hash VARCHAR(255) NOT NULL,
     salt VARCHAR(32)
     );
 

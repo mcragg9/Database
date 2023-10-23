@@ -1,11 +1,11 @@
 -- Provides data for init tables
 
 -- Insert user data
-INSERT INTO users (LastName, FirstName, Rights, Status, DateAdded, hashed_password)
+INSERT INTO users (UserName, LastName, FirstName, Rights, Status, DateAdded, password_hash)
 VALUES
-('Cragg', 'Matthew', 'Admin','Active','2023-10-03','password'),
-('Also', 'Matthew', 'Admin', 'Active', '2023-10-03', '1234'),
-('Still', 'Matthew', 'Admin', 'Active', '2023-10-03', '1234a');
+('mcragg9', 'Cragg', 'Matthew', 'Admin','Active','2023-10-03','password'),
+('mcragg', 'Also', 'Matthew', 'Admin', 'Active', '2023-10-03', '1234'),
+('mcrag', 'Still', 'Matthew', 'Admin', 'Active', '2023-10-03', '1234a');
 
 INSERT INTO classification (ClassificationName)
 VALUES
