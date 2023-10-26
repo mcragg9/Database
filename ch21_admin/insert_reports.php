@@ -1,8 +1,7 @@
 <?php
 
-
-    require_once('util/secure_conn.php');  // require a secure connection
-    require_once('util/valid_admin.php');  // require a valid admin user
+require_once('util/secure_conn.php');  // require a secure connection
+require_once('util/valid_admin.php');  // require a valid admin user
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
