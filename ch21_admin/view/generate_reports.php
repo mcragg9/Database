@@ -6,6 +6,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <header>
+        <h1>Generate Report</h1>
+    </header>
     <link rel="stylesheet" href="main.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +19,7 @@
 </head>
 
 <body>
+    
     <div class="container">
         <form action="insert_reports.php" method="post">
 

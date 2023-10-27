@@ -16,7 +16,7 @@ function is_valid_admin_login($user, $password) {
 
 
     /* to sneak in with any user/password 
-    used test & 1234 I think
+    user - password 
     add_admin($user,$password); */
 
 

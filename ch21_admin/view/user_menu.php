@@ -10,7 +10,7 @@
     </head>
     <body>
         <header>
-            <h1>Admin Menu</h1>
+            <h1>User Menu</h1>
         </header>
         <?php
             include("util/nav_menu.php")

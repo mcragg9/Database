@@ -43,11 +43,25 @@ if (!isset($_SESSION['is_valid_admin'])) {
 // Perform the specified action
 switch($action) {
     case 'login':
+
+        //TODO For Permission
+        //Need to get currently logged in users permissions
+        //is where permissions = admin or other
+
         $email = filter_input(INPUT_POST, 'email');
         $password = filter_input(INPUT_POST, 'password');
-        if (is_valid_admin_login($email, $password)) {
+
+        $login_result = is_valid_admin_login($email, $password);
+
+        if ($login_result) {
             $_SESSION['is_valid_admin'] = true;
-            include('view/admin_menu.php');
+            $_SESSION['user_rights'] = $login_result['rights'];
+
+            if ($_SESSION['user_rights'] === 'admin') {
+                include('view/admin_menu.php');
+            } else {
+                include('view/user_menu.php');
+            }
         } else {
             $login_message = 'You must login to view this page.';
             include('view/login.php');

@@ -33,6 +33,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <header>
+        <h1>Reports</h1>
+    </header>
     <title>Reports</title>
     <link rel="stylesheet" type="text/css" href="main.css"/>
     <style>
@@ -51,9 +54,7 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Reports</h1>
-    </header>
+    
 
     <?php
         include("util/nav_menu.php")
