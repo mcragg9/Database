@@ -1,8 +1,15 @@
 <?php
     require_once('util/secure_conn.php');  // require a secure connection
     require_once('util/valid_admin.php');  // require a valid admin user
+
+    
+    //add an if to set admin views for the menu
+
+
 ?>
 <!DOCTYPE html>
+
+
 <html>
     <head>
         <title>Tracker</title>

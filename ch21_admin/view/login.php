@@ -17,8 +17,8 @@
             <form action="." method="post" id="login_form" class="aligned">
                 <input type="hidden" name="action" value="login">
 
-                <label>Email:</label>
-                <input type="text" class="text" name="email">
+                <label>Username:</label>
+                <input type="text" class="text" name="username">
                 <br>
 
                 <label>Password:</label>

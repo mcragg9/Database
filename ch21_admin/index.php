@@ -48,16 +48,16 @@ switch($action) {
         //Need to get currently logged in users permissions
         //is where permissions = admin or other
 
-        $email = filter_input(INPUT_POST, 'email');
+        $username = filter_input(INPUT_POST, 'username');
         $password = filter_input(INPUT_POST, 'password');
 
-        $login_result = is_valid_admin_login($email, $password);
+        $login_result = is_valid_admin_login($username, $password);
 
         if ($login_result) {
             $_SESSION['is_valid_admin'] = true;
             $_SESSION['user_rights'] = $login_result['rights'];
 
-            if ($_SESSION['user_rights'] === 'admin') {
+            if ($_SESSION['user_rights'] === "Admin") {
                 include('view/admin_menu.php');
             } else {
                 include('view/user_menu.php');
