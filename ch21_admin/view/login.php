@@ -4,15 +4,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>My Guitar Shop</title>
+        <title>Tracker Database Log In</title>
         <link rel="stylesheet" type="text/css" href="main.css"/>
     </head>
     <body>
         <header>
-            <h1>My Guitar Shop</h1>
+            <h1>Tracker Database Log In</h1>
         </header>
         <main>
-            <h1>Login</h1>
+            <h1></h1>
 
             <form action="." method="post" id="login_form" class="aligned">
                 <input type="hidden" name="action" value="login">

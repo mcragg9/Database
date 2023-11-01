@@ -3,13 +3,9 @@
     require_once('util/valid_admin.php');  // require a valid admin user
 
     
-    //add an if to set admin views for the menu
-
-
 ?>
+
 <!DOCTYPE html>
-
-
 <html>
     <head>
         <title>Tracker</title>
@@ -20,7 +16,13 @@
             <h1>Admin Menu</h1>
         </header>
         <?php
-            include("util/nav_menu.php")
+            if($isAdmin) {
+                echo "Administrator Access";
+            } else {
+                echo "Not an Admin";
+            }
+            echo "<p>User Rights: $userRights</p>"; // Display user's rights
+            include("util/nav_menu.php");
         ?>
     </body>
 </html>

@@ -1,6 +1,8 @@
 <?php
     require_once('util/secure_conn.php');
     require_once('util/valid_admin.php');
+    require_once('model/admin_db.php');
+    require_once('model/database.php');
 
     // Process form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -57,8 +59,11 @@
     
 
     <?php
-        include("util/nav_menu.php")
+        include("util/nav_menu.php")      
     ?>
+
+    
+
 
     <!-- Add search form -->
     <form method="post" action="">
@@ -74,31 +79,32 @@
     </form>
 
     <?php
-        // Display the results in a table
-        $headerPrinted = false;
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            if (!$headerPrinted) {
-                echo '<table>';
-                echo '<tr>';
-                foreach ($row as $key => $value) {
-                    echo '<th>' . htmlspecialchars($key) . '</th>';
-                }
-                echo '</tr>';
-                $headerPrinted = true;
-            }
+
+    // Display the results in a table
+    $headerPrinted = false;
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if (!$headerPrinted) {
+            echo '<table>';
             echo '<tr>';
-            foreach ($row as $value) {
-                echo '<td>' . htmlspecialchars($value) . '</td>';
+            foreach ($row as $key => $value) {
+                echo '<th>' . htmlspecialchars($key) . '</th>';
             }
             echo '</tr>';
+            $headerPrinted = true;
         }
-        if ($headerPrinted) {
-            echo '</table>';
-        } else {
-            echo '<p>No results found.</p>';
+        echo '<tr>';
+        foreach ($row as $value) {
+            echo '<td>' . htmlspecialchars($value) . '</td>';
         }
-    ?>
+        echo '</tr>';
+    }
+    if ($headerPrinted) {
+        echo '</table>';
+    } else {
+        echo '<p>No results found.</p>';
+    }
+
+?>
+
 </body>
 </html>
-
-

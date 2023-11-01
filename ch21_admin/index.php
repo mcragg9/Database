@@ -19,7 +19,6 @@ We want ch21_admin to work, but we ran into issues:
 */
 
 
-
 // Start session management and include necessary functions
 session_start();
 require_once('model/database.php');
@@ -43,7 +42,6 @@ if (!isset($_SESSION['is_valid_admin'])) {
 // Perform the specified action
 switch($action) {
     case 'login':
-
         //TODO For Permission
         //Need to get currently logged in users permissions
         //is where permissions = admin or other
@@ -51,17 +49,30 @@ switch($action) {
         $username = filter_input(INPUT_POST, 'username');
         $password = filter_input(INPUT_POST, 'password');
 
+        // Modified is_valid_admin_login function
+        function is_valid_user_login($username, $password) {
+            global $db;
+        
+            $query = "SELECT * FROM users WHERE UserName = :username AND password_hash = :password";
+        
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':password', $password);
+            $stmt->execute();
+        
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            return $user;
+        }
+        
+
         $login_result = is_valid_admin_login($username, $password);
 
         if ($login_result) {
             $_SESSION['is_valid_admin'] = true;
             $_SESSION['user_rights'] = $login_result['rights'];
+            include('view/admin_menu.php');
 
-            if ($_SESSION['user_rights'] === "Admin") {
-                include('view/admin_menu.php');
-            } else {
-                include('view/user_menu.php');
-            }
         } else {
             $login_message = 'You must login to view this page.';
             include('view/login.php');
