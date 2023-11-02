@@ -38,6 +38,26 @@ function is_valid_admin_login($user, $password) {
     }
     
     $hash = $row['password_hash'];
+    return password_verify($password, $hash);   
+}
+
+function is_valid_user_login($username, $password) {
+    global $db;
+
+    $query = "SELECT * FROM users WHERE UserName = :username";
+
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':username', $username);
+    // $stmt->bindParam(':password', $password);
+    $stmt->execute();
+    
+    echo $username;
+    echo $password;
+
+    $row = $stmt->fetch();
+    $hash = $row['password_hash'];
+    $_SESSION['user'] = $row;
+        
     return password_verify($password, $hash);
 }
 ?>

@@ -4,6 +4,10 @@
     require_once('model/admin_db.php');
     require_once('model/database.php');
 
+    //Provdes rights for logged in user
+    $user = $_SESSION['user'];
+    $rights = $user['Rights'];
+
     // Process form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $incidentDate = $_POST['incidentDate'];
@@ -59,6 +63,9 @@
     
 
     <?php
+        if($rights === "Admin") {
+            echo "Administrator Access";
+        }
         include("util/nav_menu.php")      
     ?>
 
@@ -73,36 +80,44 @@
         <input type="submit" value="Search">
     </form>
 
-    <!-- Add clear search form -->
+    <!-- Add clear search form  -->
     <form method="post" action="">
-        <input type="submit" value="Clear Search">
+        </br>
+            <input type="submit" value="Clear Search">
     </form>
 
     <?php
 
-    // Display the results in a table
-    $headerPrinted = false;
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        if (!$headerPrinted) {
-            echo '<table>';
-            echo '<tr>';
-            foreach ($row as $key => $value) {
-                echo '<th>' . htmlspecialchars($key) . '</th>';
-            }
-            echo '</tr>';
-            $headerPrinted = true;
-        }
+    // Displays results in a table
+$headerPrinted = false;
+echo '<form method="post" action="">'; // Add a form for deleting items
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    if (!$headerPrinted) {
+        echo '<table>';
         echo '<tr>';
-        foreach ($row as $value) {
-            echo '<td>' . htmlspecialchars($value) . '</td>';
+        echo '<th></th>'; // Add an empty header for the checkbox column
+        foreach ($row as $key => $value) {
+            echo '<th>' . htmlspecialchars($key) . '</th>';
         }
         echo '</tr>';
+        $headerPrinted = true;
     }
-    if ($headerPrinted) {
-        echo '</table>';
-    } else {
-        echo '<p>No results found.</p>';
+    echo '<tr>';
+    echo '<td><input type="checkbox" name="delete[]" value="' . htmlspecialchars($row['reports_id']) . '"></td>';
+    foreach ($row as $value) {
+        echo '<td>' . htmlspecialchars($value) . '</td>';
     }
+    echo '</tr>';
+}
+if ($headerPrinted) {
+    echo '</table>';
+    echo '<input type="submit" value="Delete Selected">'; // Add a submit button for deleting
+    echo '</form>'; // Close the form
+} else {
+    echo '<p>No results found.</p>';
+}
+
+
 
 ?>
 

@@ -2,7 +2,16 @@
     require_once('util/secure_conn.php');  // require a secure connection
     require_once('util/valid_admin.php');  // require a valid admin user
 
+if (isset($_SESSION['user'])) {
+
+    // these will have to be present to access user rights level
+    $user = $_SESSION['user'];
+    $rights = $user['Rights'];
     
+    // Now you can use $rights to display the user's rights on the page
+} else {
+    // User is not logged in, handle accordingly (e.g., redirect to login page)
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,12 +25,10 @@
             <h1>Admin Menu</h1>
         </header>
         <?php
-            if($isAdmin) {
+            if($rights === "Admin") {
                 echo "Administrator Access";
-            } else {
-                echo "Not an Admin";
             }
-            echo "<p>User Rights: $userRights</p>"; // Display user's rights
+            //echo "<p>User Rights: $rights</p>"; // Display user's rights
             include("util/nav_menu.php");
         ?>
     </body>

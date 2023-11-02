@@ -48,29 +48,13 @@ switch($action) {
 
         $username = filter_input(INPUT_POST, 'username');
         $password = filter_input(INPUT_POST, 'password');
+     
 
-        // Modified is_valid_admin_login function
-        function is_valid_user_login($username, $password) {
-            global $db;
-        
-            $query = "SELECT * FROM users WHERE UserName = :username AND password_hash = :password";
-        
-            $stmt = $db->prepare($query);
-            $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':password', $password);
-            $stmt->execute();
-        
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-            return $user;
-        }
-        
-
-        $login_result = is_valid_admin_login($username, $password);
+        $login_result = is_valid_user_login($username, $password);
 
         if ($login_result) {
             $_SESSION['is_valid_admin'] = true;
-            $_SESSION['user_rights'] = $login_result['rights'];
+            // $_SESSION['user_rights'] = $login_result['Rights'];
             include('view/admin_menu.php');
 
         } else {
