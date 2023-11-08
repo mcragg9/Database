@@ -39,6 +39,10 @@ if (!isset($_SESSION['is_valid_admin'])) {
     $action = 'login';
 }
 
+//testing to see if other pages are accessible, it looks to be working
+// echo $action;
+// print_r($_SESSION);
+
 // Perform the specified action
 switch($action) {
     case 'login':

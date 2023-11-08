@@ -22,12 +22,17 @@ if (isset($_SESSION['user'])) {
     </head>
     <body>
         <header>
-            <h1>Admin Menu</h1>
+            <h1>Menu 
+                <?php
+                    if($rights === "Admin") {
+                    echo "- Administrator";
+                    }
+                    else { "- User";}
+                ?>
+            </h1>
         </header>
         <?php
-            if($rights === "Admin") {
-                echo "Administrator Access";
-            }
+            
             //echo "<p>User Rights: $rights</p>"; // Display user's rights
             include("util/nav_menu.php");
         ?>
