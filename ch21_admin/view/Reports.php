@@ -10,9 +10,9 @@
 
     // Process form submission
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $incidentDate = $_POST['incidentDate'];
-        $classificationName = $_POST['classificationName'];
-        $createdBy = $_POST['createdBy'];
+        $incidentDate = '%' . $_POST['incidentDate'] . '%';
+        $classificationName = '%' . $_POST['classificationName'] . '%';
+        $createdBy = '%' . $_POST['createdBy'] . '%';
 
         // Modify your query to use prepared statements and add WHERE clauses based on user input
         $stmt = $db->prepare("SELECT reports.IncidentDate, classification.classificationname, reports.CreatedBy, reports.description 
@@ -22,9 +22,9 @@
             AND classification.classificationname LIKE :classificationName
             AND reports.CreatedBy LIKE :createdBy");
 
-        $stmt->bindValue(':incidentDate', "%$incidentDate%", PDO::PARAM_STR);
-        $stmt->bindValue(':classificationName', "%$classificationName%", PDO::PARAM_STR);
-        $stmt->bindValue(':createdBy', "%$createdBy%", PDO::PARAM_STR);
+        $stmt->bindParam(':incidentDate', $incidentDate, PDO::PARAM_STR);
+        $stmt->bindParam(':classificationName', $classificationName, PDO::PARAM_STR);
+        $stmt->bindParam(':createdBy', $createdBy, PDO::PARAM_STR);
 
         $stmt->execute();
     } else {
@@ -35,6 +35,7 @@
         $stmt->execute();
     }
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -95,27 +96,16 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     if (!$headerPrinted) {
         echo '<table>';
         echo '<tr>';
-        echo '<th></th>'; // Add an empty header for the checkbox column
-        foreach ($row as $key => $value) {
-            echo '<th>' . htmlspecialchars($key) . '</th>';
-        }
         echo '</tr>';
         $headerPrinted = true;
     }
     echo '<tr>';
-    echo '<td><input type="checkbox" name="delete[]" value="' . htmlspecialchars($row['reports_id']) . '"></td>';
     foreach ($row as $value) {
         echo '<td>' . htmlspecialchars($value) . '</td>';
     }
     echo '</tr>';
 }
-if ($headerPrinted) {
-    echo '</table>';
-    echo '<input type="submit" value="Delete Selected">'; // Add a submit button for deleting
-    echo '</form>'; // Close the form
-} else {
-    echo '<p>No results found.</p>';
-}
+
 
 
 
