@@ -64,9 +64,7 @@
     
 
     <?php
-        if($rights === "Admin") {
-            echo "Administrator Access";
-        }
+        
         include("util/nav_menu.php")      
     ?>
 

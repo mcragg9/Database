@@ -1,7 +1,13 @@
 <?php
     require_once('util/secure_conn.php');  // require a secure connection
     require_once('util/valid_admin.php');  // require a valid admin user
+    
+    //Provdes rights for logged in user
+    $user = $_SESSION['user'];
+    $rights = $user['Rights'];
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
