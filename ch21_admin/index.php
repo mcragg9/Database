@@ -60,7 +60,6 @@ switch($action) {
             $_SESSION['is_valid_admin'] = true;
             // $_SESSION['user_rights'] = $login_result['Rights'];
             include('view/admin_menu.php');
-
         } else {
             $login_message = 'You must login to view this page.';
             include('view/login.php');
