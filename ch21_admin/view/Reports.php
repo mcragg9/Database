@@ -29,10 +29,21 @@
         $stmt->execute();
     } else {
         // If the form is not submitted, execute the original query without any filters
-        $stmt = $db->prepare("SELECT reports.IncidentDate, classification.classificationname, reports.CreatedBy, reports.description 
-            FROM reports 
-            JOIN classification ON reports.classification_id = classification.classification_id");
-        $stmt->execute();
+        $stmt = $db->prepare("SELECT reports.reports_id, 
+                            reports.IncidentDate, 
+                            reports.CreatedDate, 
+                            classification.classificationname, 
+                            impact.ImpactPhrase, 
+                            reports.location_id, 
+                            reports.Description, 
+                            reports.CreatedBy, 
+                            reports.ModifiedDate, 
+                            reports.ModifiedBy
+                     FROM reports 
+                     JOIN classification ON reports.classification_id = classification.classification_id
+                     JOIN impact ON reports.impact_id = impact.impact_id"); 
+$stmt->execute();
+
     }
 ?>
 
@@ -67,10 +78,6 @@
         
         include("util/nav_menu.php")      
     ?>
-
-    
-
-
     <!-- Add search form -->
     <form method="post" action="">
         <input type="text" name="incidentDate" placeholder="Search by Incident Date">
@@ -78,7 +85,6 @@
         <input type="text" name="createdBy" placeholder="Search by Created By">
         <input type="submit" value="Search">
     </form>
-
     <!-- Add clear search form  -->
     <form method="post" action="">
         </br>
@@ -86,28 +92,59 @@
     </form>
 
     <?php
-
+    //displays statement results
+    var_dump($stmt);
     // Displays results in a table
-$headerPrinted = false;
-echo '<form method="post" action="">'; // Add a form for deleting items
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    if (!$headerPrinted) {
-        echo '<table>';
+    $headerPrinted = false;
+    echo '<form method="post" action="">'; // Add a form for deleting items
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if (!$headerPrinted) {
+            echo '<table>';
+            echo '<tr>';
+            if ($rights === "Admin") {
+                echo '<th>Edit</th>'; // Add a column header for "Edit"
+            }
+            // Add headers for other columns
+            echo '<th>Incident Date</th>';
+            echo '<th>Created Date</th>';
+            echo '<th>Classification ID</th>';
+            echo '<th>Impact ID</th>';
+            echo '<th>Location ID</th>';
+            echo '<th>Description</th>';
+            echo '<th>Created By</th>';
+            echo '<th>Modified Date</th>';
+            echo '<th>Modified By</th>';
+            echo '<th>Classification Name</th>';
+            echo '</tr>';
+            $headerPrinted = true;
+        }
         echo '<tr>';
+        if (isset($row['reports_id'])) {
+            if ($rights === "Admin") {
+                echo '<td><a href="edit_reports.php?report_id=' . $row['reports_id'] . '">Edit</a></td>';
+            }
+        } else {
+            echo '<td>Missing reports_id</td>';
+        }
+        // Output the values for each column
+        echo '<td>' . htmlspecialchars($row['IncidentDate']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['CreatedDate']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['classificationname']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['ImpactPhrase']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['location_id']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['Description']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['CreatedBy']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['ModifiedDate']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['ModifiedBy']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['classificationname']) . '</td>';
         echo '</tr>';
-        $headerPrinted = true;
     }
-    echo '<tr>';
-    foreach ($row as $value) {
-        echo '<td>' . htmlspecialchars($value) . '</td>';
-    }
-    echo '</tr>';
-}
 
 
+    echo '</table>';
+    echo '</form>';
 
-
-?>
+    ?>
 
 </body>
 </html>

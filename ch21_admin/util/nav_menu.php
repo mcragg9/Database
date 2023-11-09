@@ -2,6 +2,8 @@
     <?php
         if($rights === "Admin") {
             echo "Administrator Access";
+        } else {
+            echo "Standard User";
         }
     ?>
     <p><a href="index.php?action=show_admin_menu">Main Page</a></p>
