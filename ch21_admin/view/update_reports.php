@@ -45,3 +45,8 @@ if ($stmt->execute()) {
 } else {
     echo "Error updating report: " . $stmt->errorInfo()[2];
 }
+
+// Redirect back to the reports table view
+header("Location: index.php?action=show_order_manager");
+exit();
+?>
