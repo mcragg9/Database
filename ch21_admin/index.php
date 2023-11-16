@@ -77,6 +77,9 @@ switch($action) {
     case 'show_order_manager':
         include('view/generate_reports.php');
         break;
+    case 'edit_reports_page':
+        include('view/edit_reports.php');
+        break;
     case 'logout':
         $_SESSION = array();   // Clear all session data from memory
         session_destroy();     // Clean up the session ID

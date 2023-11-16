@@ -1,4 +1,8 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
     require_once('util/secure_conn.php');
     require_once('util/valid_admin.php');
     require_once('model/admin_db.php');
@@ -93,7 +97,7 @@ $stmt->execute();
 
     <?php
     //displays statement results
-    var_dump($stmt);
+    //var_dump($stmt);
     // Displays results in a table
     $headerPrinted = false;
     echo '<form method="post" action="">'; // Add a form for deleting items
@@ -121,7 +125,7 @@ $stmt->execute();
         echo '<tr>';
         if (isset($row['reports_id'])) {
             if ($rights === "Admin") {
-                echo '<td><a href="edit_reports.php?report_id=' . $row['reports_id'] . '">Edit</a></td>';
+                echo '<td><a href="index.php?action=edit_reports_page&reports_id=' . $row['reports_id'] . '">Edit</a></td>';
             }
         } else {
             echo '<td>Missing reports_id</td>';

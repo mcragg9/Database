@@ -1,113 +1,58 @@
 <?php
-    require_once('util/secure_conn.php');  // require a secure connection
-    require_once('util/valid_admin.php');  // require a valid admin user
-    
-    //Provdes rights for logged in user
-    $user = $_SESSION['user'];
-    $rights = $user['Rights'];
+require_once('util/secure_conn.php');
+require_once('util/valid_admin.php');
+require_once('model/admin_db.php');
+require_once('model/database.php');
+
+// Get the report ID from the URL
+$reportId = $_GET['reports_id'];
+
+// Fetch the selected report from the database
+$stmt = $db->prepare("SELECT reports.reports_id, 
+                              reports.IncidentDate, 
+                              reports.CreatedDate, 
+                              classification.classificationname, 
+                              impact.ImpactPhrase, 
+                              reports.location_id, 
+                              reports.Description, 
+                              reports.CreatedBy, 
+                              reports.ModifiedDate, 
+                              reports.ModifiedBy
+                       FROM reports 
+                       JOIN classification ON reports.classification_id = classification.classification_id
+                       JOIN impact ON reports.impact_id = impact.impact_id
+                       WHERE reports.reports_id = :reportId");
+$stmt->bindParam(':reportId', $reportId, PDO::PARAM_INT);
+$stmt->execute();
+$report = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+// Display the form for editing
 ?>
-
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <header>
-        <h1>Generate Report</h1>
-    </header>
-    <link rel="stylesheet" href="main.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Form</title>
-    <?php
-            include("util/nav_menu.php")
-        ?>
+    <title>Edit Report</title>
+    <link rel="stylesheet" type="text/css" href="main.css"/>
 </head>
-
 <body>
-    
-    <div class="container">
-        <form action="insert_reports.php" method="post">
+    <?php include("util/nav_menu.php") ?>
 
-            <div class="form-group">
-                <label for="incident_date">Incident Date:</label>
-                <input type="date" id="incident_date" name="incident_date" required>
-            </div>
+    <h2>Edit Report</h2>
+    <form action="update_report.php" method="post">
+        <input type="hidden" name="reportId" value="<?php echo $report['reports_id']; ?>">
+        <!-- Add other input fields for editing -->
+        Incident Date: <input type="text" name="incidentDate" value="<?php echo $report['IncidentDate']; ?>"><br>
+        Created Date: <input type="text" name="createdDate" value="<?php echo $report['CreatedDate']; ?>"><br>
+        Classification: <input type="text" name="classification" value="<?php echo $report['classificationname']; ?>"><br>
+        Impact: <input type="text" name="impact" value="<?php echo $report['ImpactPhrase']; ?>"><br>
+        Location ID: <input type="text" name="locationId" value="<?php echo $report['location_id']; ?>"><br>
+        Description: <textarea name="description"><?php echo $report['Description']; ?></textarea><br>
+        Created By: <input type="text" name="createdBy" value="<?php echo $report['CreatedBy']; ?>"><br>
+        Modified Date: <input type="text" name="modifiedDate" value="<?php echo $report['ModifiedDate']; ?>"><br>
+        Modified By: <input type="text" name="modifiedBy" value="<?php echo $report['ModifiedBy']; ?>"><br>
 
-            <div class="form-group">
-                <label for="classification_id">Classification:</label>
-                <select id="classification_id" name="classification_id" required>
-                    <option value="1">Classification 1</option>
-                    <option value="2">Classification 2</option>
-                    <!-- Add more options as needed from your database -->
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="impact_id">Impact:</label>
-                <select id="impact_id" name="impact_id" required>
-                    <option value="1">Impact 1</option>
-                    <option value="2">Impact 2</option>
-                    <!-- Add more options as needed from your database -->
-                </select>
-            </div>
-
-            <div class="form-group checkbox-group">
-                <label for="location_id">Location:</label>
-                <select id="location_id" name="location_id" required>
-                    <option value="1">Location 1</option>
-                    <option value="2">Location 2</option>
-                    <!-- Add more options as needed from your database -->
-                </select>
-                <label for="new_location_checkbox">
-                    New Location? 
-                    <input type="checkbox" id="new_location_checkbox">
-                </label>
-                <input type="text" id="new_location" name="new_location" disabled>
-            </div>
-
-            <div class="form-group">
-                <label for="description">Description:</label><br>
-                <textarea id="description" name="description" rows="4" cols="50" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="created_by">Created By:</label>
-                <select id="created_by" name="created_by" required>
-                    <?php
-                        $dsn = 'mysql:host=localhost;dbname=tracker';
-                        $username = 'root';
-                        $password = '';
-
-                        try {
-                            $db = new PDO($dsn, $username, $password);
-                        } catch (PDOException $e) {
-                            echo "Connection failed: " . $e->getMessage();
-                            exit();
-                        }
-
-                        $stmt = $db->query("SELECT * FROM users");
-
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<option value=\"{$row['user_id']}\">{$row['FirstName']} {$row['LastName']}</option>";
-                        }
-                    ?>
-                </select>
-            </div>
-
-            <input type="submit" class="submit-button" value="Submit">
-
-        </form>
-    </div>
-
-    <script>
-        document.getElementById('new_location_checkbox').addEventListener('change', function() {
-            var newLocationInput = document.getElementById('new_location');
-            newLocationInput.disabled = !this.checked;
-            if (!this.checked) {
-                newLocationInput.value = '';
-            }
-        });
-    </script>
+        <input type="submit" value="Save Changes">
+    </form>
 </body>
 </html>
