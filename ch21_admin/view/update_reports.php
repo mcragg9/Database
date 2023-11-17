@@ -1,8 +1,15 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once('util/secure_conn.php');
 require_once('util/valid_admin.php');
 require_once('model/admin_db.php');
 require_once('model/database.php');
+
+//Provdes rights for logged in user
+$user = $_SESSION['user'];
+$rights = $user['Rights'];
 
 // Get data from the form submission
 $reportId = $_POST['reportId'];
@@ -41,12 +48,33 @@ $stmt->bindParam(':modifiedDate', $modifiedDate, PDO::PARAM_STR);
 $stmt->bindParam(':modifiedBy', $modifiedBy, PDO::PARAM_STR);
 
 if ($stmt->execute()) {
-    echo "Report updated successfully";
+    $message = "Report updated successfully.";
 } else {
-    echo "Error updating report: " . $stmt->errorInfo()[2];
+    $message = "Error updating report: " . $stmt->errorInfo()[2];
 }
 
-// Redirect back to the reports table view
-header("Location: index.php?action=show_order_manager");
-exit();
+// Include the navigation menu
+include("util/nav_menu.php");
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Report</title>
+    <link rel="stylesheet" type="text/css" href="main.css"/>
+</head>
+<body>
+    <h2>Update Report</h2>
+
+    <?php
+    // Display the result message
+    if (isset($message)) {
+        echo "<p>$message</p>";
+    }
+    ?>
+
+    <!-- Add a link to go back to the reports table view -->
+    <p><a href="index.php?action=left_off">Go back to reports</a></p>
+</body>
+</html>
+

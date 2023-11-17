@@ -1,11 +1,13 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once('util/secure_conn.php');
 require_once('util/valid_admin.php');
 require_once('model/admin_db.php');
 require_once('model/database.php');
 
 // Get the report ID from the URL
-$reportId = $_GET['reports_id'];
+$reportId = isset($_GET['reports_id']) ? $_GET['reports_id'] : null;
 
 //Provdes rights for logged in user
 $user = $_SESSION['user'];
@@ -44,34 +46,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $updatedModifiedBy = $_POST['modifiedBy'];
 
     // Update the database
-    $updateStmt = $db->prepare("UPDATE reports 
-                                SET IncidentDate = :incidentDate,
-                                    CreatedDate = :createdDate,
-                                    classification_id = (SELECT classification_id FROM classification WHERE classificationname = :classification),
-                                    impact_id = (SELECT impact_id FROM impact WHERE ImpactPhrase = :impact),
-                                    location_id = :locationId,
-                                    Description = :description,
-                                    CreatedBy = :createdBy,
-                                    ModifiedDate = :modifiedDate,
-                                    ModifiedBy = :modifiedBy
-                                WHERE reports_id = :reportId");
+$updateStmt = $db->prepare("UPDATE reports 
+SET IncidentDate = :incidentDate,
+    CreatedDate = :createdDate,
+    classification_id = (SELECT classification_id FROM classification WHERE classificationname = :classification),
+    impact_id = (SELECT impact_id FROM impact WHERE ImpactPhrase = :impact),
+    location_id = :locationId,
+    Description = :description,
+    CreatedBy = :createdBy,
+    ModifiedDate = :modifiedDate,
+    ModifiedBy = :modifiedBy
+WHERE reports_id = :reportId");
 
-    $updateStmt->bindParam(':incidentDate', $updatedIncidentDate, PDO::PARAM_STR);
-    $updateStmt->bindParam(':createdDate', $updatedCreatedDate, PDO::PARAM_STR);
-    $updateStmt->bindParam(':classification', $updatedClassification, PDO::PARAM_STR);
-    $updateStmt->bindParam(':impact', $updatedImpact, PDO::PARAM_STR);
-    $updateStmt->bindParam(':locationId', $updatedLocationId, PDO::PARAM_INT);
-    $updateStmt->bindParam(':description', $updatedDescription, PDO::PARAM_STR);
-    $updateStmt->bindParam(':createdBy', $updatedCreatedBy, PDO::PARAM_STR);
-    $updateStmt->bindParam(':modifiedDate', $updatedModifiedDate, PDO::PARAM_STR);
-    $updateStmt->bindParam(':modifiedBy', $updatedModifiedBy, PDO::PARAM_STR);
-    $updateStmt->bindParam(':reportId', $reportId, PDO::PARAM_INT);
+$updateStmt->bindParam(':incidentDate', $updatedIncidentDate, PDO::PARAM_STR);
+$updateStmt->bindParam(':createdDate', $updatedCreatedDate, PDO::PARAM_STR);
+$updateStmt->bindParam(':classification', $updatedClassification, PDO::PARAM_STR);
+$updateStmt->bindParam(':impact', $updatedImpact, PDO::PARAM_STR);
+$updateStmt->bindParam(':locationId', $updatedLocationId, PDO::PARAM_INT);
+$updateStmt->bindParam(':description', $updatedDescription, PDO::PARAM_STR);
+$updateStmt->bindParam(':createdBy', $updatedCreatedBy, PDO::PARAM_STR);
+$updateStmt->bindParam(':modifiedDate', $updatedModifiedDate, PDO::PARAM_STR);
+$updateStmt->bindParam(':modifiedBy', $updatedModifiedBy, PDO::PARAM_STR);
+$updateStmt->bindParam(':reportId', $reportId, PDO::PARAM_INT);
 
-    $updateStmt->execute();
+$updateStmt->execute();
 
-    // Redirect back to the reports table view
-    header("Location: index.php?action=show_order_manager");
-    exit();
+// Add debug statements
+if ($updateStmt->rowCount() > 0) {
+echo "Update successful.";
+} else {
+echo "Update failed.";
+}
+
+// Redirect back to the reports table view
+header("Location: index.php?action=left_off");
+exit();
+
 }
 
 // Display the form for editing
@@ -86,8 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include("util/nav_menu.php") ?>
 
     <h2>Edit Report</h2>
-    <form action="update_reports.php" method="post">
-
+    <form action="index.php?action=update_reports_page&reports_id=<?php echo $reportId; ?>" method="post">
         <!-- Include other input fields for editing -->
         Incident Date: <input type="text" name="incidentDate" value="<?php echo $report['IncidentDate']; ?>"><br>
         Created Date: <input type="text" name="createdDate" value="<?php echo $report['CreatedDate']; ?>"><br>
@@ -99,6 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         Modified Date: <input type="text" name="modifiedDate" value="<?php echo $report['ModifiedDate']; ?>"><br>
         Modified By: <input type="text" name="modifiedBy" value="<?php echo $report['ModifiedBy']; ?>"><br>
 
+         <!-- Add a hidden input for reportId -->
+        <input type="hidden" name="reportId" value="<?php echo $reportId; ?>">
         <input type="submit" value="Save Changes">
     </form>
 </body>

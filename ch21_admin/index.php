@@ -80,6 +80,24 @@ switch($action) {
     case 'edit_reports_page':
         include('view/edit_reports.php');
         break;
+        case 'update_reports_page':
+            $reportId = isset($_GET['reports_id']) ? $_GET['reports_id'] : null;
+        
+            if ($reportId) {
+                // Fetch report data from the database
+                $stmt = $db->prepare("SELECT * FROM reports WHERE reports_id = :reportId");
+                $stmt->bindParam(':reportId', $reportId, PDO::PARAM_INT);
+                $stmt->execute();
+                $report = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+                // Include the view file to display the update form
+                include("view/update_reports.php");
+            } else {
+                // Handle the case when no report ID is provided
+                // You may display an error message or redirect to an appropriate page
+            }
+            break;
+        
     case 'logout':
         $_SESSION = array();   // Clear all session data from memory
         session_destroy();     // Clean up the session ID

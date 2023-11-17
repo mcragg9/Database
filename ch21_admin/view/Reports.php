@@ -1,39 +1,49 @@
 <?php
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-    require_once('util/secure_conn.php');
-    require_once('util/valid_admin.php');
-    require_once('model/admin_db.php');
-    require_once('model/database.php');
+require_once('util/secure_conn.php');
+require_once('util/valid_admin.php');
+require_once('model/admin_db.php');
+require_once('model/database.php');
 
-    //Provdes rights for logged in user
-    $user = $_SESSION['user'];
-    $rights = $user['Rights'];
+// Provides rights for the logged-in user
+$user = $_SESSION['user'];
+$rights = $user['Rights'];
 
-    // Process form submission
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $incidentDate = '%' . $_POST['incidentDate'] . '%';
-        $classificationName = '%' . $_POST['classificationName'] . '%';
-        $createdBy = '%' . $_POST['createdBy'] . '%';
+// Initialize filter values
+$incidentDateFilter = isset($_POST['incidentDate']) ? '%' . $_POST['incidentDate'] . '%' : '';
+$classificationNameFilter = isset($_POST['classificationName']) ? '%' . $_POST['classificationName'] . '%' : '';
+$createdByFilter = isset($_POST['createdBy']) ? '%' . $_POST['createdBy'] . '%' : '';
 
-        // Modify your query to use prepared statements and add WHERE clauses based on user input
-        $stmt = $db->prepare("SELECT reports.IncidentDate, classification.classificationname, reports.CreatedBy, reports.description 
-            FROM reports 
-            JOIN classification ON reports.classification_id = classification.classification_id
-            WHERE reports.IncidentDate LIKE :incidentDate
-            AND classification.classificationname LIKE :classificationName
-            AND reports.CreatedBy LIKE :createdBy");
+// Process form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Modify your query to use prepared statements
+    $stmt = $db->prepare("SELECT reports.reports_id, 
+                    reports.IncidentDate, 
+                    reports.CreatedDate, 
+                    classification.classificationname, 
+                    impact.ImpactPhrase, 
+                    reports.location_id, 
+                    reports.Description, 
+                    reports.CreatedBy, 
+                    reports.ModifiedDate, 
+                    reports.ModifiedBy
+             FROM reports 
+             JOIN classification ON reports.classification_id = classification.classification_id
+             JOIN impact ON reports.impact_id = impact.impact_id
+             WHERE reports.IncidentDate LIKE :incidentDate
+             AND classification.classificationname LIKE :classificationName
+             AND reports.CreatedBy LIKE :createdBy"); 
 
-        $stmt->bindParam(':incidentDate', $incidentDate, PDO::PARAM_STR);
-        $stmt->bindParam(':classificationName', $classificationName, PDO::PARAM_STR);
-        $stmt->bindParam(':createdBy', $createdBy, PDO::PARAM_STR);
+    $stmt->bindParam(':incidentDate', $incidentDateFilter, PDO::PARAM_STR);
+    $stmt->bindParam(':classificationName', $classificationNameFilter, PDO::PARAM_STR);
+    $stmt->bindParam(':createdBy', $createdByFilter, PDO::PARAM_STR);
 
-        $stmt->execute();
-    } else {
-        // If the form is not submitted, execute the original query without any filters
-        $stmt = $db->prepare("SELECT reports.reports_id, 
+    $stmt->execute();
+} else {
+    // If the form is not submitted, execute the original query without any filters
+    $stmt = $db->prepare("SELECT reports.reports_id, 
                             reports.IncidentDate, 
                             reports.CreatedDate, 
                             classification.classificationname, 
@@ -46,11 +56,9 @@ ini_set('display_errors', 1);
                      FROM reports 
                      JOIN classification ON reports.classification_id = classification.classification_id
                      JOIN impact ON reports.impact_id = impact.impact_id"); 
-$stmt->execute();
-
-    }
+    $stmt->execute();
+}
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -76,11 +84,8 @@ $stmt->execute();
     </style>
 </head>
 <body>
-    
-
     <?php
-        
-        include("util/nav_menu.php")      
+    include("util/nav_menu.php");
     ?>
     <!-- Add search form -->
     <form method="post" action="">
@@ -96,8 +101,6 @@ $stmt->execute();
     </form>
 
     <?php
-    //displays statement results
-    //var_dump($stmt);
     // Displays results in a table
     $headerPrinted = false;
     echo '<form method="post" action="">'; // Add a form for deleting items
@@ -144,11 +147,8 @@ $stmt->execute();
         echo '</tr>';
     }
 
-
     echo '</table>';
     echo '</form>';
-
     ?>
-
 </body>
 </html>
