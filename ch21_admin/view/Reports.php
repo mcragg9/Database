@@ -26,15 +26,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     impact.ImpactPhrase, 
                     reports.location_id, 
                     reports.Description, 
-                    reports.CreatedBy, 
+                    CONCAT(usersCreated.FirstName, ' ', usersCreated.LastName) AS CreatedByName, 
                     reports.ModifiedDate, 
-                    reports.ModifiedBy
+                    CONCAT(usersModified.FirstName, ' ', usersModified.LastName) AS ModifiedByName
              FROM reports 
              JOIN classification ON reports.classification_id = classification.classification_id
              JOIN impact ON reports.impact_id = impact.impact_id
+             JOIN users AS usersCreated ON reports.CreatedBy = usersCreated.user_id
+             JOIN users AS usersModified ON reports.ModifiedBy = usersModified.user_id
              WHERE reports.IncidentDate LIKE :incidentDate
              AND classification.classificationname LIKE :classificationName
-             AND reports.CreatedBy LIKE :createdBy"); 
+             AND CONCAT(usersCreated.FirstName, ' ', usersCreated.LastName) LIKE :createdBy"); 
 
     $stmt->bindParam(':incidentDate', $incidentDateFilter, PDO::PARAM_STR);
     $stmt->bindParam(':classificationName', $classificationNameFilter, PDO::PARAM_STR);
@@ -50,12 +52,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             impact.ImpactPhrase, 
                             reports.location_id, 
                             reports.Description, 
-                            reports.CreatedBy, 
+                            CONCAT(usersCreated.FirstName, ' ', usersCreated.LastName) AS CreatedByName, 
                             reports.ModifiedDate, 
-                            reports.ModifiedBy
+                            CONCAT(usersModified.FirstName, ' ', usersModified.LastName) AS ModifiedByName
                      FROM reports 
                      JOIN classification ON reports.classification_id = classification.classification_id
-                     JOIN impact ON reports.impact_id = impact.impact_id"); 
+                     JOIN impact ON reports.impact_id = impact.impact_id
+                     JOIN users AS usersCreated ON reports.CreatedBy = usersCreated.user_id
+                     JOIN users AS usersModified ON reports.ModifiedBy = usersModified.user_id"); 
     $stmt->execute();
 }
 ?>
@@ -140,9 +144,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo '<td>' . htmlspecialchars($row['ImpactPhrase']) . '</td>';
         echo '<td>' . htmlspecialchars($row['location_id']) . '</td>';
         echo '<td>' . htmlspecialchars($row['Description']) . '</td>';
-        echo '<td>' . htmlspecialchars($row['CreatedBy']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['CreatedByName']) . '</td>';
         echo '<td>' . htmlspecialchars($row['ModifiedDate']) . '</td>';
-        echo '<td>' . htmlspecialchars($row['ModifiedBy']) . '</td>';
+        echo '<td>' . htmlspecialchars($row['ModifiedByName']) . '</td>';
         echo '<td>' . htmlspecialchars($row['classificationname']) . '</td>';
         echo '</tr>';
     }
