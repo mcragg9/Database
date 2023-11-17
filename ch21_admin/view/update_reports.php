@@ -32,7 +32,7 @@ $stmt = $db->prepare("UPDATE reports
                          location_id = :locationId,
                          Description = :description,
                          CreatedBy = :createdBy,
-                         ModifiedDate = :modifiedDate,
+                         ModifiedDate = CURRENT_TIMESTAMP,
                          ModifiedBy = :modifiedBy
                      WHERE reports_id = :reportId");
 
@@ -44,7 +44,7 @@ $stmt->bindParam(':impact', $impact, PDO::PARAM_STR);
 $stmt->bindParam(':locationId', $locationId, PDO::PARAM_INT);
 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
 $stmt->bindParam(':createdBy', $createdBy, PDO::PARAM_STR);
-$stmt->bindParam(':modifiedDate', $modifiedDate, PDO::PARAM_STR);
+
 $stmt->bindParam(':modifiedBy', $modifiedBy, PDO::PARAM_STR);
 
 if ($stmt->execute()) {
