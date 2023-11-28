@@ -1,81 +1,119 @@
-/* the styles for the HTML elements */
-html {
-    background-color: rgb(192, 192, 192);
-}
+/* Fonts */
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    width: 760px;
+    font-family: 'Roboto', sans-serif; /* Nicer font for the body text */
+}
+
+h1, h2 {
+    font-family: 'Times', cursive; /* Nicer font for headers */
+}
+
+/* Colors */
+html {
+    background-color: #f5f5f5; /* Light gray background */
+}
+
+body {
     margin: 0 auto;
     padding: 0 2em;
-    background-color: white;
-    border: 1px solid black;
+    background-color: rgba(255, 255, 255, 0.95); /* White faded background (95% transparent) */
+    border: 1px solid #dddddd; /* Light gray border */
+    color: #333333; /* Dark gray text color */
 }
+
 header {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid #333333; /* Dark gray border */
     padding: .5em 0;
+    background-color: #ffffff; /* White header background */
 }
+
 header h1 {
-    color: black;
+    color: #333333; /* Dark gray text color */
 }
+
 main {
     margin-bottom: 1.5em;
 }
+
 aside {
     float: left;
-    width: 150px;
+    width: 20%;
+    background-color: #ffffff; /* White aside background */
+    padding: 1em;
+    border: 1px solid #dddddd; /* Light gray border */
 }
+
 section {
     float: left;
-    width: 500px;
+    width: 70%;
+    background-color: rgba(255, 255, 255, 0.95); /* White faded section background (95% transparent) */
+    padding: 1em;
+    border: 1px solid #dddddd; /* Light gray border */
 }
+
 footer {
     clear: both;
-    border-top: 2px solid black;
+    border-top: 2px solid #333333; /* Dark gray border */
+    background-color: #ffffff; /* White footer background */
+    padding: .5em 0;
 }
+
 footer p {
     text-align: right;
     font-size: 80%;
+    color: #666666; /* Gray text color in the footer */
 }
+
 h1 {
     font-size: 150%;
     margin: .5em 0 .25em;
+    color: #d08504; /* Orange h1 text */
 }
+
 h2 {
     font-size: 120%;
     margin: .5em 0;
+    color: #d08504; /* Orange h2 text */
 }
-h1, h2 {
-    color: rgb(208, 133, 4);
-}
+
 p {
     margin: .5em 0;
+    color: #333333; /* Dark gray text color in paragraphs */
 }
+
 ul {
     list-style-type: none;
     margin: 0;
     padding-left: 0;
 }
+
 li {
     padding-bottom: .5em;
 }
+
 a {
-    color: rgb(41, 64, 124);
+    color: #27407c; /* Dark blue links */
     font-weight: bold;
+    font-family: 'Arial', Helvetica, sans-serif; /* Serious font for menu items */
 }
+
 a:hover {
-    color: rgb(208, 133, 4);
+    color: #d08504; /* Orange hover color for links */
 }
+
 br {
     clear: left;
 }
+
 table {
     border-collapse: collapse;
 }
+
 td, th {
     padding: .2em .5em .2em .5em;
     vertical-align: top;
     text-align: left;
 }
+
 form {
 
 }
@@ -83,6 +121,7 @@ form {
 #login_form {
     margin: 1em 0;
 }
+
 #login_form label {
     width: 5em;
     float: left;
@@ -90,7 +129,9 @@ form {
     margin-right: 1em;
     margin-bottom: .75em;
     margin-top: .25em;
+    color: #333333; /* Dark gray text color in login form labels */
 }
+
 input.text {
     width: 15em;
 }

@@ -3,9 +3,12 @@
 -- Insert user data
 INSERT INTO users (UserName, LastName, FirstName, Rights, Status, DateAdded, password_hash)
 VALUES
-('mcragg9', 'Cragg', 'Matthew', 'Admin','Active','2023-10-03','password'),
-('mcragg', 'Also', 'Matthew', 'Admin', 'Active', '2023-10-03', '1234'),
-('mcrag', 'Still', 'Matthew', 'Admin', 'Active', '2023-10-03', '1234a');
+('user', 'Blank', 'NotMatthew', 'Admin','Active','2023-10-03','$2y$10$u/AvZzGf59MuAt1zTNt5BuubS7uTqJzafg2yhA/FAUCX8paYp5kT2'),
+('mcragg9', 'Cragg', 'Matthew', 'Input','Active','2023-10-03','$2y$10$u/AvZzGf59MuAt1zTNt5BuubS7uTqJzafg2yhA/FAUCX8paYp5kT2'),
+('mcragg', 'Also', 'Matthew', 'Admin', 'Active', '2023-10-03', '$2y$10$u/AvZzGf59MuAt1zTNt5BuubS7uTqJzafg2yhA/FAUCX8paYp5kT2'),
+('mcrag', 'Still', 'Matthew', 'Admin', 'Active', '2023-10-03', '$2y$10$u/AvZzGf59MuAt1zTNt5BuubS7uTqJzafg2yhA/FAUCX8paYp5kT2');
+
+
 
 INSERT INTO classification (ClassificationName)
 VALUES

@@ -1,24 +1,5 @@
 <?php
 
-/*
-
-We want ch21_admin to work, but we ran into issues:
-
-1) Problem: Access denied for user 'mgs_user'@'localhost' (using password: YES)
-      - Database is not set up
-   Solution: Run the SQL code that sets up the DB
-
-2) Problem: Redirecting to HTTPs (via the file util/secure_conn.php)
-   Solution: Comment out the redirection code
-
-2.5) Problem: Notice: Trying to access array offset on value of type bool in C:\xampp\htdocs\book_apps\ch21_admin\model\admin_db.php on line 23
-
-3) Problem: Can't log in, don't know password
-   Solution: 
-
-*/
-
-
 // Start session management and include necessary functions
 session_start();
 require_once('model/database.php');
@@ -80,23 +61,23 @@ switch($action) {
     case 'edit_reports_page':
         include('view/edit_reports.php');
         break;
-        case 'update_reports_page':
-            $reportId = isset($_GET['reports_id']) ? $_GET['reports_id'] : null;
-        
-            if ($reportId) {
-                // Fetch report data from the database
-                $stmt = $db->prepare("SELECT * FROM reports WHERE reports_id = :reportId");
-                $stmt->bindParam(':reportId', $reportId, PDO::PARAM_INT);
-                $stmt->execute();
-                $report = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-                // Include the view file to display the update form
-                include("view/update_reports.php");
-            } else {
-                // Handle the case when no report ID is provided
-                // You may display an error message or redirect to an appropriate page
-            }
-            break;
+    case 'update_reports_page':
+        $reportId = isset($_GET['reports_id']) ? $_GET['reports_id'] : null;
+    
+        if ($reportId) {
+            // Fetch report data from the database
+            $stmt = $db->prepare("SELECT * FROM reports WHERE reports_id = :reportId");
+            $stmt->bindParam(':reportId', $reportId, PDO::PARAM_INT);
+            $stmt->execute();
+            $report = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            // Include the view file to display the update form
+            include("view/update_reports.php");
+        } else {
+            // Handle the case when no report ID is provided
+            // You may display an error message or redirect to an appropriate page
+        }
+        break;
         
     case 'logout':
         $_SESSION = array();   // Clear all session data from memory
