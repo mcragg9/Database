@@ -135,3 +135,28 @@ form {
 input.text {
     width: 15em;
 }
+
+main.menu {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #ffffff; /* Adjust as needed */
+    border: 1px solid #dddddd; /* Light gray border */
+    padding: 10px; /* Adjust as needed */
+}
+
+main.menu a {
+    text-decoration: none;
+    color: #27407c; /* Dark blue links */
+    font-weight: bold;
+    font-family: 'Arial', Helvetica, sans-serif; /* Serious font for menu items */
+    border: 1px solid #dddddd; /* Light gray border around options */
+    padding: 5px 15px; /* Adjust as needed */
+    border-radius: 5px; /* Rounded corners for options */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+main.menu a:hover {
+    background-color: #f2ebff; /* Very light purple background on hover */
+    color: #d08504; /* Orange hover color for links */
+}
