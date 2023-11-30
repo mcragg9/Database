@@ -51,8 +51,8 @@ function is_valid_user_login($username, $password) {
     // $stmt->bindParam(':password', $password);
     $stmt->execute();
     
-    echo $username;
-    echo $password;
+    // echo $username;
+    // echo $password;
 
     $row = $stmt->fetch();
     $hash = $row['password_hash'];

@@ -8,8 +8,8 @@ h1, h2 {
 }
 
 /* Colors */
-html {
-    background-color: #f5f5f5; /* Light gray background */
+html, body {
+    background-color: #f2ebff; /* Very light purple background */
 }
 
 body {
